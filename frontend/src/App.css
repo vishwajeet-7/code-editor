@@ -1,0 +1,86 @@
+.homePage_Wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  height: 100vh;
+  
+}
+
+.form_wrapper{
+  background: #282a36;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+}
+
+footer{
+  position: fixed;
+  bottom: 0;
+}
+
+footer a{
+  color: #4aee88;
+}
+
+.input_group{
+  display: flex;
+  flex-direction: column;
+}
+.main_lable{
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+.logo{
+  margin-bottom: 30px;
+}
+.input_box{
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  margin-bottom: 14px;
+  background: #eee;
+  font-weight: bold;
+}
+
+.btn{
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.join{
+  background-color: #4aee88;
+  width: 100px;
+  margin-left: auto;
+}
+.join:hover{
+  background-color: #2b824c;
+}
+
+.create_info{
+  margin-top: 20px;
+  text-align: center;
+}
+
+.create_new_btn{
+  color: #4aee88;
+  text-decoration: none;
+  border-bottom: 1px solid #4aee88;
+  transition: all 0.3s ease-in-out;
+}
+
+.create_new_btn:hover{
+  color: #2b824c;
+  border-color: #2b824c;
+}
+
+footer a:hover{
+  color: #2b824c;
+  border-color: #2b824c;
+}
