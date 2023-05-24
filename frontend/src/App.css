@@ -50,16 +50,17 @@ footer a{
   padding: 10px;
   border-radius: 5px;
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
 
-.join{
+.join, .leave_btn{
   background-color: #4aee88;
   width: 100px;
   margin-left: auto;
 }
-.join:hover{
+.join:hover, .leave_btn:hover{
   background-color: #2b824c;
 }
 
@@ -129,4 +130,17 @@ footer a:hover{
 
 .logo_img{
   height: 60px;
+}
+
+.leave_btn{
+  margin-top: 20px;
+  width: 100%;
+  font-weight: bold;
+}
+
+.CodeMirror{
+  font-size: 20px;
+  min-height: calc(100vh-20px);
+  line-height: 1.6;
+  padding-top: 20px;
 }
