@@ -19,8 +19,19 @@ const Home = () => {
       return toast.error("RoomId required");
     }
     if (!username) return toast.error("Username required");
-    nav(`/editor/${roomId}`);
+    nav(`/editor/${roomId}`,{
+      state: {
+        username,
+      }
+    });
   };
+
+  const handleInputEnter = (e)=>{
+    console.log('event',e.code)
+    if(e.code==='Enter'){
+      joinRoom()
+    }
+  }
   return (
     <div className="homePage_Wrapper">
       <div className="form_wrapper">
@@ -33,6 +44,7 @@ const Home = () => {
             placeholder="ROOM ID"
             value={roomId}
             onChange={(e) => setRoomId(e.target.value)}
+            onKeyUp={handleInputEnter}
           />
           <input
             type="text"
@@ -40,6 +52,7 @@ const Home = () => {
             placeholder="USER NAME"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            onKeyUp={handleInputEnter}
           />
           <button className="btn join" onClick={joinRoom}>
             Join

@@ -84,3 +84,49 @@ footer a:hover{
   color: #2b824c;
   border-color: #2b824c;
 }
+
+.main_wrapper{
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  height: 100vh;
+}
+
+.aside{
+  background: #1c1e29;
+  padding: 16px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.aside_inner{
+  flex: 1;
+}
+
+.clients_list{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.client{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+
+}
+
+.username{
+  margin-top: 10px;
+}
+
+.logo{
+  border-bottom: 1px solid #424242;
+  padding-bottom: 60px;
+}
+
+.logo_img{
+  height: 60px;
+}
