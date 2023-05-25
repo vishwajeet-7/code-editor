@@ -46,11 +46,26 @@ const EditorPage = () => {
             toast.success(`${username} has joined the room`);
             console.log(`${username} joined`);
           }
-          setClient(clients)
+          setClient(clients);
+        }
+      );
+      // Listening for disconnected
+      socketRef.current.on(
+        ACTIONS.DISCONNECTED,
+        ({ socketId, username }) => {
+          toast.success(`${username} left the room`);
+          setClient((prev)=>{
+            return prev.filter((client)=> client.socketId!==socketId)
+          })
         }
       );
     };
     init();
+    return ()=>{
+      socketRef.current.disconnect();
+      socketRef.current.off(ACTIONS.JOINED) ; //to unsubscribe any socket event
+      socketRef.current.off(ACTIONS.DISCONNECTED) 
+    }
   }, []);
 
   if (!location.state) return <Navigate to={"/"} />;
@@ -72,7 +87,7 @@ const EditorPage = () => {
         <button className="btn leave_btn">Leave</button>
       </div>
       <div className="editor_wrap">
-        <Editor />
+        <Editor socketRef={socketRef} roomId={roomId} />
       </div>
     </div>
   );

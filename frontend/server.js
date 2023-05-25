@@ -36,6 +36,10 @@ io.on('connection',(socket)=>{
         });
     });
 
+    socket.on(ACTIONS.CODE_CHANGE,({roomId,code})=>{
+        io.to(roomId).emit(ACTIONS.CODE_CHANGE,{code});
+    })
+
     //if user get's disconned while using the page
 socket.on('disconnecting',()=>{
     const rooms = [...socket.rooms]; //getting all rooms 
