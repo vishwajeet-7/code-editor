@@ -21,7 +21,6 @@ const getAllConnectedClients = (roomId)=>{
 }
 
 io.on('connection',(socket)=>{
-    console.log('socket connected',socket.id);
     socket.on(ACTIONS.JOIN,({roomId,username})=>{ //getting the room id and name of client who wants to join using Action Join
         userSocketMap[socket.id] = username; //storing user inside map
         socket.join(roomId); //joining the room of a particular id
@@ -31,7 +30,7 @@ io.on('connection',(socket)=>{
             io.to(socketId).emit(ACTIONS.JOINED,{
                 clients,
                 username, // name of user who has joined
-                socketId:socket.id, //
+                socketId:socket.id, 
             });
         });
     });

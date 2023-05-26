@@ -15,7 +15,7 @@ const EditorPage = () => {
   //initialising socket event
   const params = useParams();
   const location = useLocation();
-  const socketRef = useRef(null);
+  const socketRef = useRef();
   const roomId = params.roomID;
   const nav = useNavigate();
   const [client, setClient] = useState([]);
@@ -67,6 +67,7 @@ const EditorPage = () => {
       socketRef.current.off(ACTIONS.DISCONNECTED) 
     }
   }, []);
+  //console.log(socketRef.current)
 
   if (!location.state) return <Navigate to={"/"} />;
   return (
