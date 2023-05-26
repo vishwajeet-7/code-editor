@@ -48,7 +48,7 @@ const Editor = ({ socketRef, roomId }) => {
         }
       })
     }
-  },[])
+  },[socketRef.current])
   return (
     <div>
       <textarea id="real_time_editor"></textarea>

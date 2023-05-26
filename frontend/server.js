@@ -36,7 +36,7 @@ io.on('connection',(socket)=>{
     });
 
     socket.on(ACTIONS.CODE_CHANGE,({roomId,code})=>{
-        io.to(roomId).emit(ACTIONS.CODE_CHANGE,{code});
+        socket.in(roomId).emit(ACTIONS.CODE_CHANGE,{code}); //send the code to all other clients except the one typing
     })
 
     //if user get's disconned while using the page
