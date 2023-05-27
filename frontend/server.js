@@ -3,9 +3,16 @@ const http = require('http')
 const app = express();
 const {Server} = require('socket.io');
 const ACTIONS = require('./src/action');
+const path = require('path');
 
 const server = http.createServer(app)
 const io = new Server(server);
+
+app.use(express.static('build'));
+
+app.use((req,res,next)=>{
+    res.sendFile(path.join(__dirname,'build','index.html'))
+})
 
 //to know which socket id belongs to which user
 const userSocketMap = {};
@@ -37,6 +44,10 @@ io.on('connection',(socket)=>{
 
     socket.on(ACTIONS.CODE_CHANGE,({roomId,code})=>{
         socket.in(roomId).emit(ACTIONS.CODE_CHANGE,{code}); //send the code to all other clients except the one typing
+    })
+    //to sync already written codes with the new client
+    socket.on(ACTIONS.SYNC_CODE,({socketId,code})=>{
+        io.to(socketId).emit(ACTIONS.CODE_CHANGE,{code}); 
     })
 
     //if user get's disconned while using the page

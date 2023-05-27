@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Client from "./Client";
 import Editor from "./Editor";
 import { initSocket } from "../socket";
-import ACTIONS from "../action";
+import ACTIONS, { SYNC_CODE } from "../action";
 import {
   Navigate,
   useLocation,
@@ -19,6 +19,7 @@ const EditorPage = () => {
   const roomId = params.roomID;
   const nav = useNavigate();
   const [client, setClient] = useState([]);
+  const codeRef = useRef(null);
 
   useEffect(() => {
     const init = async () => {
@@ -47,35 +48,38 @@ const EditorPage = () => {
             console.log(`${username} joined`);
           }
           setClient(clients);
+          //updating the ui of new user with the already written code in the editor
+          socketRef.current.emit(ACTIONS.SYNC_CODE, { code: codeRef.current,socketId });
         }
       );
       // Listening for disconnected
-      socketRef.current.on(
-        ACTIONS.DISCONNECTED,
-        ({ socketId, username }) => {
-          toast.success(`${username} left the room`);
-          setClient((prev)=>{
-            return prev.filter((client)=> client.socketId!==socketId)
-          })
-        }
-      );
+      socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
+        toast.success(`${username} left the room`);
+        setClient((prev) => {
+          return prev.filter((client) => client.socketId !== socketId);
+        });
+      });
     };
     init();
-    return ()=>{
+    return () => {
       socketRef.current.disconnect();
-      socketRef.current.off(ACTIONS.JOINED) ; //to unsubscribe any socket event
-      socketRef.current.off(ACTIONS.DISCONNECTED) 
-    }
+      socketRef.current.off(ACTIONS.JOINED); //to unsubscribe any socket event
+      socketRef.current.off(ACTIONS.DISCONNECTED);
+    };
   }, []);
- 
-const copyRoomId = async()=>{
-  try {
-    await navigator.clipboard.writeText(roomId);
-    toast.success("Room ID copied")
-  } catch (error) {
-    toast.error("could not copy room ID");
-  }
-}
+
+  const copyRoomId = async () => {
+    try {
+      await navigator.clipboard.writeText(roomId);
+      toast.success("Room ID copied");
+    } catch (error) {
+      toast.error("could not copy room ID");
+    }
+  };
+
+  const leaveRoom = () => {
+    nav("/");
+  };
   //console.log(socketRef.current)
 
   if (!location.state) return <Navigate to={"/"} />;
@@ -93,11 +97,21 @@ const copyRoomId = async()=>{
             })}
           </div>
         </div>
-        <button className="btn copy_btn" onClick={copyRoomId}>Copy Room ID</button>
-        <button className="btn leave_btn">Leave</button>
+        <button className="btn copy_btn" onClick={copyRoomId}>
+          Copy Room ID
+        </button>
+        <button className="btn leave_btn" onClick={leaveRoom}>
+          Leave
+        </button>
       </div>
       <div className="editor_wrap">
-        <Editor socketRef={socketRef} roomId={roomId} />
+        <Editor
+          socketRef={socketRef}
+          roomId={roomId}
+          onCodeChange={(code) => {
+            codeRef.current = code;
+          }}
+        />
       </div>
     </div>
   );
